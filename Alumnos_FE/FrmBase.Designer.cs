@@ -94,7 +94,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmBase";
             this.Text = "FrmBase";
-            //this.Load += new System.EventHandler(this.FrmBase_Load);
+            this.Load += new System.EventHandler(this.FrmBase_Load);
             this.PanelBarraTitulo.ResumeLayout(false);
             this.ResumeLayout(false);
 

@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
@@ -12,6 +13,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Alumnos_BE;
 using Alumnos_FE;
+using Alumnos_FE.Controles_Personalizados;
+
+
 
 
 namespace Alumnos_FE
@@ -28,11 +32,18 @@ namespace Alumnos_FE
         //
 
         //Variables para el if de verificacion numerica en el textbox dni
-        int Valorverif;
-        decimal Verificacion;
+        long Valorverif;
+        long Verificacion;
         //
 
-        public Alumnos ListaAlumnos { get; set; } = new Alumnos();
+        //Variable que verifica si existe el DNI con la llamada al metodo del backend
+        bool existe;
+
+        //Variable que verifica si existe el DNI y la Fecha coincide con la llamada al metodo del backend
+        bool existealumno;
+
+        public Alumnos alumnos { get; set; } = new Alumnos();
+
         //variables que cuentan los clicks de los textbox 
         int nombreclick = 0;
         int apellidoclick = 0;
@@ -42,99 +53,25 @@ namespace Alumnos_FE
         public Carga_Alumnos()
         {
             InitializeComponent();
-            //actualizar datagridview desde que inicia la aplicacion para ver los datos desde el principio
-            datagrid1.DataSource = ListaAlumnos.ListaDT;
         }
 
         //FUNCION MODO OSCURO
         
         private void Carga_Alumnos_Load(object sender, EventArgs e)
         {
-            //codigo arcaico en desuso 
-            //Login f1 = Owner as Login;
-            //contadormodo = f1.contadormodo;
+            //actualizar datagridview desde que inicia la aplicacion para ver los datos desde el principio
+            datagrid1.DataSource = alumnos.ListaDT;
             //
-            if ((contadormodo % 2) == 0)
-            {
-                btnModo.Text = "Modo Claro\r\nActivado\r\n";
-                this.BackColor = Color.AliceBlue;
-                PanelBarraTitulo.BackColor = Color.MediumSlateBlue;
-                btnCrear.BackColor = Color.AliceBlue;
-                btnModo.BackColor = Color.AliceBlue;
-                btnCrear.FlatAppearance.BorderColor = Color.DarkGray;
-                btnModo.FlatAppearance.BorderColor = Color.DarkGray;
-                btnCerrar.FlatAppearance.MouseDownBackColor = Color.Indigo;
-                btnCerrar.FlatAppearance.MouseOverBackColor = Color.Indigo;
-                btnMinimizar.FlatAppearance.MouseDownBackColor = Color.Indigo;
-                btnMinimizar.FlatAppearance.MouseOverBackColor = Color.Indigo;
-                txtNombre.BackColor = Color.AliceBlue;
-                txtApellido.BackColor = Color.AliceBlue;
-               
-                txtDni.BackColor = Color.AliceBlue;
-                btnModo.ForeColor = Color.Black;
-                labelTitulo.ForeColor = Color.Black;
-                btnCrear.ForeColor = Color.Black;
-                if (txtNombre.ForeColor == Color.Black)
-                {
-                }
-                else
-                {
-                    txtNombre.ForeColor = Color.DarkGray;
-                }
-                if (txtApellido.ForeColor == Color.Black)
-                {
-                }
-                else
-                {
-                    txtApellido.ForeColor = Color.DarkGray;
-                }
-               
-                if (txtDni.ForeColor == Color.Black)
-                {
-                }
-                else
-                {
-                    txtDni.ForeColor = Color.DarkGray;
-                }
-            }
-            else
-            {
-                btnModo.Text = "Modo Oscuro\r\nActivado\r\n";
-                this.BackColor = Color.DimGray;
-                PanelBarraTitulo.BackColor = Color.FromArgb(25, 25, 25);
-                btnCrear.BackColor = Color.Lavender;
-                btnModo.BackColor = Color.Lavender;
-                txtNombre.BackColor = Color.Lavender;
-                txtApellido.BackColor = Color.Lavender;
-                
-                txtDni.BackColor = Color.Lavender;
-                btnModo.ForeColor = Color.Black;
-                labelTitulo.ForeColor = Color.White;
-                btnCrear.ForeColor = Color.Black;
-                if (txtNombre.ForeColor == Color.Black)
-                {
-                }
-                else
-                {
-                    txtNombre.ForeColor = Color.DarkGray;
-                }
-                if (txtApellido.ForeColor == Color.Black)
-                {
-                }
-                else
-                {
-                    txtApellido.ForeColor = Color.DarkGray;
-                }
-               
-                if (txtDni.ForeColor == Color.Black)
-                {
-                }
-                else
-                {
-                    txtDni.ForeColor = Color.DarkGray;
-                }
 
-            }
+            //Limpiamos la seleccion del datagridview para que arranque 
+            //el programa sin filas seleccionadas
+            datagrid1.ClearSelection();
+            //
+
+            //Le damos una fecha minima de una semana anterior a la fecha actual
+            //por lo que solo se podran cargar y borrar registros de la semana anterior en adelante
+            FechaSelector.MinDate = DateTime.Today.AddDays(-7);
+            //
         }
 
         //FUNCION MODO OSCURO
@@ -149,10 +86,19 @@ namespace Alumnos_FE
             {
                 btnModo.Text = "Modo Claro\r\nActivado\r\n";
                 this.BackColor = Color.AliceBlue;
-                PanelBarraTitulo.BackColor = Color.MediumSlateBlue;
-                btnCrear.BackColor = Color.AliceBlue;
+                datagrid1.BackgroundColor = Color.AliceBlue;
+                datagrid1.DefaultCellStyle.BackColor = Color.AliceBlue;
+                datagrid1.DefaultCellStyle.ForeColor = Color.Black;
+                datagrid1.GridColor = Color.DarkGray;
+                datagrid1.ColumnHeadersDefaultCellStyle.BackColor = SystemColors.Control;
+                datagrid1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+                //
+                PanelBarraTitulo.BackColor = Color.Blue;
+                FechaSelector.SkinColor = Color.Blue;
+                btnCargar.BackColor = Color.AliceBlue;
+                btnBorrar.BackColor = Color.AliceBlue;
                 btnModo.BackColor = Color.AliceBlue;
-                btnCrear.FlatAppearance.BorderColor = Color.DarkGray;
+                btnCargar.FlatAppearance.BorderColor = Color.DarkGray;
                 btnModo.FlatAppearance.BorderColor = Color.DarkGray;
                 btnCerrar.FlatAppearance.MouseDownBackColor = Color.Indigo;
                 btnCerrar.FlatAppearance.MouseOverBackColor = Color.Indigo;
@@ -163,8 +109,9 @@ namespace Alumnos_FE
                 
                 txtDni.BackColor = Color.AliceBlue;
                 btnModo.ForeColor = Color.Black;
+                checkBox1.ForeColor = Color.Black;
                 labelTitulo.ForeColor = Color.Black;
-                btnCrear.ForeColor = Color.Black;
+                btnCargar.ForeColor = Color.Black;
                 if (txtNombre.ForeColor == Color.Black)
                 {
                 }
@@ -191,17 +138,31 @@ namespace Alumnos_FE
             else
             {
                 btnModo.Text = "Modo Oscuro\r\nActivado\r\n";
-                this.BackColor = Color.DimGray;
-                PanelBarraTitulo.BackColor = Color.FromArgb(25, 25, 25);
-                btnCrear.BackColor = Color.Lavender;
+                this.BackColor = Color.FromArgb(45, 66, 91);
+                datagrid1.BackgroundColor = Color.FromArgb(45, 66, 91);
+                datagrid1.DefaultCellStyle.BackColor = Color.FromArgb(45, 66, 91);
+                datagrid1.DefaultCellStyle.ForeColor = Color.White;
+                datagrid1.GridColor = Color.SteelBlue;
+                datagrid1.ColumnHeadersDefaultCellStyle.BackColor = SystemColors.HotTrack;
+                datagrid1.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+                PanelBarraTitulo.BackColor = Color.FromArgb(32, 47, 65);
+                FechaSelector.SkinColor = Color.FromArgb(32, 47, 65);
+                btnCargar.BackColor = Color.Lavender;
+                btnBorrar.BackColor = Color.Lavender;
                 btnModo.BackColor = Color.Lavender;
+                btnCerrar.FlatAppearance.MouseDownBackColor = Color.DarkGray;
+                btnCerrar.FlatAppearance.MouseOverBackColor = Color.DarkGray;
+                btnMinimizar.FlatAppearance.MouseDownBackColor = Color.DarkGray;
+                btnMinimizar.FlatAppearance.MouseOverBackColor = Color.DarkGray;
                 txtNombre.BackColor = Color.Lavender;
                 txtApellido.BackColor = Color.Lavender;
                
                 txtDni.BackColor = Color.Lavender;
                 btnModo.ForeColor = Color.Black;
+                checkBox1.ForeColor = Color.White;
                 labelTitulo.ForeColor = Color.White;
-                btnCrear.ForeColor = Color.Black;
+                btnCargar.ForeColor = Color.Black;
                 if (txtNombre.ForeColor == Color.Black)
                 {
                 }
@@ -229,11 +190,7 @@ namespace Alumnos_FE
 
 
         // Verifica todos los textbox y si cumple los requisitos
-        // se inserta las variables en el backend para luego crear
-        // un alumno en la lista de alumnos y escribirlo en la Data Table
-        // por ultimo actualiza el origen de la data table y escribe un aviso
-        // si es cargado correctamente
-        //
+        // se insertan las variables en el backend 
         private void btnCrear_Click(object sender, EventArgs e)
         {
 
@@ -262,29 +219,28 @@ namespace Alumnos_FE
 
             }
 
-
             if (txtDni.Text != "" && txtDni.Text != "Dni")
             {
                 //borro el error 
-                errorCorreo.SetError(txtDni, "");
+                errorDni.SetError(txtDni, "");
             }
             else
             {
-                errorCorreo.SetError(txtDni, "Debe ingresar un Dni");
+                errorDni.SetError(txtDni, "Debe ingresar un Dni");
                 txtDni.Focus();
                 return;
             }
 
-            if (Decimal.TryParse(txtDni.Text, out Verificacion))
+            if (long.TryParse(txtDni.Text, out Verificacion))
 
             {
                 //borro el error 
-                errorVerificacion.SetError(txtDni, "");
-                Valorverif = int.Parse(txtDni.Text);
+                errorDni.SetError(txtDni, "");
+                Valorverif = long.Parse(txtDni.Text);
             }
             else
             {
-                errorVerificacion.SetError(txtDni, "Ingrese un dato numerico");
+                errorDni.SetError(txtDni, "Ingrese un numero entero");
                 return;
             }
 
@@ -296,17 +252,31 @@ namespace Alumnos_FE
             //
             Alumnos alumnos = new Alumnos();
 
-            //Agregamos todos los argumentos a la instancia de alumno q creamos
+            //Agregamos todos los datos al alumno q creamos
             //
             alumno.Agregar(txtNombre.Text,
                              txtApellido.Text,
                             txtDni.Text,
-                            dateTimePicker1.Text,
+                            FechaSelector.Text,
                             checkBox1.Checked);
 
-            //Insertamos el alumno con todos sus argumentos incluidos en la lista de alumnos
+            //llamamos al metodo que verifica si ya existe el DNI que coincida con la fecha en la lista de alumnos
+            existe = alumnos.ExisteFechayDNI(alumnos, alumno);
+
+            if (existe == false)
+            {
+                //borro el error 
+                errorDni.SetError(txtDni, "");
+            }
+            else
+            {
+                MessageBox.Show("No se permite cargar el mismo DNI en el mismo dia");
+                return;
+            }
+
+            //Insertamos el alumno con todos sus datos en la lista de alumnos
             //
-            ListaAlumnos.InsertAlumno(alumno);
+            alumnos.InsertAlumno(alumno);
 
             //Aviso que el alumno fue cargado correctamente
             MessageBox.Show("Alumno Cargado");
@@ -314,9 +284,67 @@ namespace Alumnos_FE
             
             //este codigo se utiliza para actualizar el datagrid view
             // del login cuando se registra un nuevo usuario sin tener que reiniciar el programa
-            datagrid1.DataSource = ListaAlumnos.ListaDT;
-         
+            datagrid1.DataSource = alumnos.ListaDT;
+        }
 
+        private void Borrar_Click(object sender, EventArgs e)
+        {
+            if (long.TryParse(txtDni.Text, out Verificacion))
+
+            {
+                //borro el error 
+                errorDni.SetError(txtDni, "");
+                Valorverif = long.Parse(txtDni.Text);
+            }
+            else
+            {
+                errorDni.SetError(txtDni, "Ingrese un numero entero");
+                return;
+            }
+
+            //Creamos una nueva instancia de alumno
+            //
+            Alumno alumno = new Alumno();
+
+            //Creamos una nueva instancia de alumnos
+            //
+            Alumnos alumnos = new Alumnos();
+
+
+            alumno.Agregar(txtNombre.Text,
+                             txtApellido.Text,
+                            txtDni.Text,
+                            FechaSelector.Text,
+                            checkBox1.Checked);
+
+            existealumno = alumnos.BorrarAlumno(alumno);
+
+            if (existealumno == false)
+            {
+                errorDni.SetError(txtDni, "El valor no existe");
+                return;
+            }
+            else
+            {
+                errorDni.SetError(txtDni, "");
+
+            }
+
+            //Aviso que el valor fue borrado de la lista correctamente
+
+            MessageBox.Show("Valor borrado de la lista");
+
+            //este codigo se utiliza para actualizar el datagrid view
+            // del login cuando se registra un nuevo usuario sin tener que reiniciar el programa
+
+            datagrid1.DataSource = alumnos.ListaDT;
+        }
+
+        private void Carga_Alumnos_Click(object sender, EventArgs e)
+        {
+            //Limpiamos la seleccion del datagridview
+            //cuando se presiona click fuera del datagridview
+            datagrid1.ClearSelection();
         }
 
         //el checkbox cambiara de color dependiendo si esta activado o no
@@ -324,21 +352,32 @@ namespace Alumnos_FE
         //
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBox1.Checked == true)
+            CheckBox chk = sender as CheckBox;
+            if (chk.Checked)
             {
-                checkBox1.ForeColor = Color.Green;
-                checkBox1.BackColor = Color.SpringGreen;
+                chk.Image = Properties.Resources.Vchecked;
+                checkBox1.Text = " Presente";
             }
             else
             {
-                checkBox1.ForeColor = Color.Crimson;
-                checkBox1.BackColor = Color.MistyRose;
+                chk.Image = Properties.Resources.Vunchecked;
+                checkBox1.Text = " Ausente";
             }
+            //if (checkbox1.checked == true)
+            //{
+            //    checkbox1.forecolor = color.green;
+            //    checkbox1.backcolor = color.springgreen;
+            //}
+            //else
+            //{
+            //    checkbox1.forecolor = color.crimson;
+            //    checkbox1.backcolor = color.mistyrose;
+            //}
         }
 
 
         //Los siguientes metodos cambian los colores de las fuentes en los textbox
-        // para simular un placeholder, el cual lamentablemente no existe en Winform ni .NETframework
+        // para simular un placeholder, el cual lamentablemente no existe en Winforms .NETframework
         private void txtNombre_Click(object sender, EventArgs e)
         {
             nombreclick++;
@@ -389,20 +428,6 @@ namespace Alumnos_FE
             txtApellido.ForeColor = Color.Black;
         }
 
-
-        private new void btnCerrar_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-
-        private void txtDni_TextChanged(object sender, EventArgs e)
-        {
-            txtDni.ForeColor = Color.Black;
-        }
-
-       
-
         private void txtDni_Click(object sender, EventArgs e)
         {
             dniclick++;
@@ -416,11 +441,32 @@ namespace Alumnos_FE
             }
         }
 
-      
+        private void txtDni_TextChanged(object sender, EventArgs e)
+        {
+            dniclick++;
+            txtDni.ForeColor = Color.Black;
+        }
 
 
+        private void btnCargar_MouseLeave(object sender, EventArgs e)
+        {
+            tipCargar.Active = false;
+        }
 
+        private void btnBorrar_MouseLeave(object sender, EventArgs e)
+        {
+            tipBorrar.Active = false;
+        }
 
+        private void btnCargar_MouseHover(object sender, EventArgs e)
+        {
+            tipCargar.Active = true;
+        }
+
+        private void btnBorrar_MouseHover(object sender, EventArgs e)
+        {
+            tipBorrar.Active = true;
+        }
 
         //
         //

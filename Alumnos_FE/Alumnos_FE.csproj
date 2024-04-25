@@ -52,6 +52,9 @@
     <Compile Include="Carga_Alumnos.Designer.cs">
       <DependentUpon>Carga_Alumnos.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controles Personalizados\FechaCustom.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="FrmBase.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -74,7 +77,15 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="Properties\DataSources\Alumnos_BE.Alumno.datasource" />
+    <None Include="Properties\DataSources\Alumnos_BE.Alumnos.datasource" />
+    <None Include="Properties\DataSources\Alumnos_FE.Properties.Resources.datasource" />
+    <None Include="Properties\DataSources\Alumnos_FE.Properties.Settings.datasource" />
+    <None Include="Properties\DataSources\Carga_Alumnos.datasource" />
+    <None Include="Properties\DataSources\FrmBase.datasource" />
+    <None Include="Properties\DataSources\Program.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -93,6 +104,21 @@
       <Project>{5aca179c-f153-4de7-9131-68b8399750a5}</Project>
       <Name>Alumnos_BE</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\calendarWhite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\calendarDark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Vunchecked.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Vchecked.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

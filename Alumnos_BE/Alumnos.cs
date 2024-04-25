@@ -11,12 +11,13 @@ namespace Alumnos_BE
 {
     public class Alumnos
     {
+
         //Creamos nuestra lista para la data table
         public DataTable ListaDT { get; set; } = new DataTable();
 
         //Crea la Estructura de la Lista de alumnos
         //
-        public Alumnos()
+        public Alumnos()            
         {
             ListaDT.TableName = "ListaUsuarios";
             ListaDT.Columns.Add("Nombre");
@@ -48,12 +49,61 @@ namespace Alumnos_BE
             ListaDT.Rows[NuevoRenglon]["Apellido"] = aAlumno.Apellido;
             ListaDT.Rows[NuevoRenglon]["Dni"] = aAlumno.Dni;
             ListaDT.Rows[NuevoRenglon]["Fecha"] = aAlumno.Fecha;
-            ListaDT.Rows[NuevoRenglon]["Asistencia"] = aAlumno.Asistencia;
+            //ListaDT.Rows[NuevoRenglon]["Asistencia"] = aAlumno.Asistencia;
+            //
+
+            //Este if cambia el string de asistencia de True a Presente
+            //y de False a Ausente para la facilitacion de lectura del usuario que carga los alumnos
+            //
+            if (aAlumno.Asistencia == true)
+            {
+                ListaDT.Rows[NuevoRenglon]["Asistencia"] = "Presente";
+            }
+
+            else
+            {
+                ListaDT.Rows[NuevoRenglon]["Asistencia"] = "Ausente";
+            }
 
             ListaDT.WriteXml("Alumnos.xml");
+            //
+        }
+
+        //Nuevo metodo que verifica si existe el DNI en la lista de alumnos
+        public bool ExisteFechayDNI(Alumnos listaalumnos,
+                                    Alumno alumno)
+        {
+            bool existe = false;
+            foreach (DataRow row in listaalumnos.ListaDT.Rows)
+            {
+                if (alumno.Dni == (row["Dni"].ToString()) && alumno.Fecha == (row["Fecha"].ToString()))
+                {
+                    existe = true;
+                }
+            }
+            return existe;
         }
 
 
+        // Metodo propio el cual verifica si en la lista de alumnos existe
+        // una fila con los mismos valores de DNI y Fecha 
+        // de existir lo borra y envia al front un bool verdadero
+        public bool BorrarAlumno(Alumno alumno)
+        {
+            bool existealumno = false;
+            ListaDT.AcceptChanges();
+            foreach (DataRow row in ListaDT.Rows)
+            {
+                if (alumno.Dni == (row["Dni"].ToString()) 
+                    && alumno.Fecha == (row["Fecha"].ToString()))
+                {
+                    row.Delete();
+                    ListaDT.WriteXml("Alumnos.xml");
+                    existealumno = true;
+                }
+            }
+            return existealumno;
 
+        }
     }
 }

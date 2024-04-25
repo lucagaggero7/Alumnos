@@ -16,7 +16,7 @@ namespace Alumnos_BE
         public string Apellido { get; set; }
         public string Dni { get; set; }
         public string Fecha { get; set; }
-        public string Asistencia { get; set; }
+        public bool Asistencia { get; set; }
 
         //Este metodo es llamado desde el formulario de carga y agrega a la instancia
         //actual del alumno todos los argumentos que corresponden a las propiedades del alumno
@@ -31,20 +31,7 @@ namespace Alumnos_BE
             Apellido = aApellido;
             Dni = aDni;
             Fecha = aFecha;
-            Asistencia = aAsistencia.ToString();
-            //Este if cambia el string de asistencia de True a Presente
-            //y de False a Ausente para la facilitacion de lectura del usuario que carga los alumnos
-            //
-            if (aAsistencia == true)
-            {
-                Asistencia = "Presente";
-            }
-
-            else
-            {
-                Asistencia = "Ausente";
-            }
-
+            Asistencia = aAsistencia;
         }
 
     }
