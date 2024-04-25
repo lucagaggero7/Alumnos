@@ -1,5 +1,5 @@
 # Alumnos
-Este programa de WinForm fue realizado en .NET Framework 4.8 con codigo reutilizado del proyecto gestion usuarios del año pasado realizado enteramente por mi
+Este programa de WinForm fue realizado en .NET Framework 4.8 con codigo reutilizado del proyecto gestion usuarios del año pasado realizado enteramente por mi.
 Contiene comentarios en todos los proyectos de la solucion (en el designer son generados automaticamente por Visual Studio)
 ----------
 NO OLVIDAR
