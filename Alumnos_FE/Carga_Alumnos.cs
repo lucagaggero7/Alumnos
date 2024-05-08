@@ -468,6 +468,11 @@ namespace Alumnos_FE
             tipBorrar.Active = true;
         }
 
+        private void tipDNI_Popup(object sender, PopupEventArgs e)
+        {
+
+        }
+
         //
         //
 
