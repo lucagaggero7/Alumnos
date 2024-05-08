@@ -105,5 +105,31 @@ namespace Alumnos_BE
             return existealumno;
 
         }
+
+        public bool EditarAlumno (Alumno alumno)
+        {
+            bool existealumno = false;
+            ListaDT.AcceptChanges();
+            foreach (DataRow row in ListaDT.Rows )
+            {
+                if (alumno.Dni == (row["Dni"].ToString())
+                    && alumno.Fecha == (row["Fecha"].ToString()))
+                {
+                    if(alumno.Asistencia == true)
+                    {
+                        row["Asistencia"] = "Presente";
+                        ListaDT.WriteXml("Alumnos.xml");
+                    }
+                    else
+                    {
+                        row["Asistencia"] = "Ausente";
+                        ListaDT.WriteXml("Alumnos.xml");
+                    }
+                    
+                    existealumno = true;
+                }
+            }
+            return existealumno;
+        }
     }
 }

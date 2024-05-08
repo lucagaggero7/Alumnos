@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.InteropServices;
@@ -48,6 +49,7 @@ namespace Alumnos_FE
         int nombreclick = 0;
         int apellidoclick = 0;
         int dniclick = 0;
+        int mostrarclick = 0;
         //
 
         public Carga_Alumnos()
@@ -59,19 +61,27 @@ namespace Alumnos_FE
         
         private void Carga_Alumnos_Load(object sender, EventArgs e)
         {
+           
+
+
             //actualizar datagridview desde que inicia la aplicacion para ver los datos desde el principio
-            datagrid1.DataSource = alumnos.ListaDT;
+            dataGrid1.DataSource = alumnos.ListaDT;
             //
 
             //Limpiamos la seleccion del datagridview para que arranque 
             //el programa sin filas seleccionadas
-            datagrid1.ClearSelection();
+            dataGrid1.ClearSelection();
             //
 
             //Le damos una fecha minima de una semana anterior a la fecha actual
             //por lo que solo se podran cargar y borrar registros de la semana anterior en adelante
-            FechaSelector.MinDate = DateTime.Today.AddDays(-7);
+            FechaSelector.MinDate = DateTime.Today.AddDays(-60);
             //
+
+            BindingSource bs = new BindingSource();
+            bs.DataSource = dataGrid1.DataSource;
+            bs.Filter = "Fecha like '%" + FechaSelector.Text + "%'";
+            dataGrid1.DataSource = bs.DataSource;
         }
 
         //FUNCION MODO OSCURO
@@ -86,12 +96,12 @@ namespace Alumnos_FE
             {
                 btnModo.Text = "Modo Claro\r\nActivado\r\n";
                 this.BackColor = Color.AliceBlue;
-                datagrid1.BackgroundColor = Color.AliceBlue;
-                datagrid1.DefaultCellStyle.BackColor = Color.AliceBlue;
-                datagrid1.DefaultCellStyle.ForeColor = Color.Black;
-                datagrid1.GridColor = Color.DarkGray;
-                datagrid1.ColumnHeadersDefaultCellStyle.BackColor = SystemColors.Control;
-                datagrid1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+                dataGrid1.BackgroundColor = Color.AliceBlue;
+                dataGrid1.DefaultCellStyle.BackColor = Color.AliceBlue;
+                dataGrid1.DefaultCellStyle.ForeColor = Color.Black;
+                dataGrid1.GridColor = Color.DarkGray;
+                dataGrid1.ColumnHeadersDefaultCellStyle.BackColor = SystemColors.Control;
+                dataGrid1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
                 //
                 PanelBarraTitulo.BackColor = Color.Blue;
                 FechaSelector.SkinColor = Color.Blue;
@@ -139,12 +149,12 @@ namespace Alumnos_FE
             {
                 btnModo.Text = "Modo Oscuro\r\nActivado\r\n";
                 this.BackColor = Color.FromArgb(45, 66, 91);
-                datagrid1.BackgroundColor = Color.FromArgb(45, 66, 91);
-                datagrid1.DefaultCellStyle.BackColor = Color.FromArgb(45, 66, 91);
-                datagrid1.DefaultCellStyle.ForeColor = Color.White;
-                datagrid1.GridColor = Color.SteelBlue;
-                datagrid1.ColumnHeadersDefaultCellStyle.BackColor = SystemColors.HotTrack;
-                datagrid1.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                dataGrid1.BackgroundColor = Color.FromArgb(45, 66, 91);
+                dataGrid1.DefaultCellStyle.BackColor = Color.FromArgb(45, 66, 91);
+                dataGrid1.DefaultCellStyle.ForeColor = Color.White;
+                dataGrid1.GridColor = Color.SteelBlue;
+                dataGrid1.ColumnHeadersDefaultCellStyle.BackColor = SystemColors.HotTrack;
+                dataGrid1.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
                 PanelBarraTitulo.BackColor = Color.FromArgb(32, 47, 65);
                 FechaSelector.SkinColor = Color.FromArgb(32, 47, 65);
@@ -284,7 +294,15 @@ namespace Alumnos_FE
             
             //este codigo se utiliza para actualizar el datagrid view
             // del login cuando se registra un nuevo usuario sin tener que reiniciar el programa
-            datagrid1.DataSource = alumnos.ListaDT;
+            dataGrid1.DataSource = alumnos.ListaDT;
+            if (mostrarclick == 0)
+            {
+                BindingSource bs = new BindingSource();
+                bs.DataSource = dataGrid1.DataSource;
+                bs.Filter = "Fecha like '%" + FechaSelector.Text + "%'";
+                dataGrid1.DataSource = bs.DataSource;
+                mostrarclick = 0;
+            }
         }
 
         private void Borrar_Click(object sender, EventArgs e)
@@ -321,30 +339,104 @@ namespace Alumnos_FE
 
             if (existealumno == false)
             {
-                errorDni.SetError(txtDni, "El valor no existe");
+                MessageBox.Show("El valor no existe");
                 return;
             }
             else
             {
+                MessageBox.Show("Valor borrado de la lista");
                 errorDni.SetError(txtDni, "");
+
 
             }
 
             //Aviso que el valor fue borrado de la lista correctamente
 
-            MessageBox.Show("Valor borrado de la lista");
+            
 
             //este codigo se utiliza para actualizar el datagrid view
             // del login cuando se registra un nuevo usuario sin tener que reiniciar el programa
 
-            datagrid1.DataSource = alumnos.ListaDT;
+            dataGrid1.DataSource = alumnos.ListaDT;
+            if (mostrarclick == 0)
+            {
+                BindingSource bs = new BindingSource();
+                bs.DataSource = dataGrid1.DataSource;
+                bs.Filter = "Fecha like '%" + FechaSelector.Text + "%'";
+                dataGrid1.DataSource = bs.DataSource;
+                mostrarclick = 0;
+            }
+        }
+
+        private void btnEditar_Click(object sender, EventArgs e)
+        {
+            if (long.TryParse(txtDni.Text, out Verificacion))
+
+            {
+                //borro el error 
+                errorDni.SetError(txtDni, "");
+                Valorverif = long.Parse(txtDni.Text);
+            }
+            else
+            {
+                errorDni.SetError(txtDni, "Ingrese un numero entero");
+                return;
+            }
+
+            //Creamos una nueva instancia de alumno
+            //
+            Alumno alumno = new Alumno();
+
+            //Creamos una nueva instancia de alumnos
+            //
+            Alumnos alumnos = new Alumnos();
+
+
+            alumno.Agregar(txtNombre.Text,
+                             txtApellido.Text,
+                            txtDni.Text,
+                            FechaSelector.Text,
+                            checkBox1.Checked);
+
+            existealumno = alumnos.EditarAlumno(alumno);
+
+            if (existealumno == false)
+            {
+                MessageBox.Show("El valor no existe");
+                return;
+            }
+            else
+            {
+                MessageBox.Show("Valor de la lista editado");
+                errorDni.SetError(txtDni, "");
+
+
+            }
+
+            //Aviso que el valor fue borrado de la lista correctamente
+
+
+
+            //este codigo se utiliza para actualizar el datagrid view
+            // del login cuando se registra un nuevo usuario sin tener que reiniciar el programa
+
+            dataGrid1.DataSource = alumnos.ListaDT;
+            if (mostrarclick == 0)
+            {
+                BindingSource bs = new BindingSource();
+                bs.DataSource = dataGrid1.DataSource;
+                bs.Filter = "Fecha like '%" + FechaSelector.Text + "%'";
+                dataGrid1.DataSource = bs.DataSource;
+                mostrarclick = 0;
+            }
+
         }
 
         private void Carga_Alumnos_Click(object sender, EventArgs e)
         {
             //Limpiamos la seleccion del datagridview
             //cuando se presiona click fuera del datagridview
-            datagrid1.ClearSelection();
+            dataGrid1.ClearSelection();
         }
 
         //el checkbox cambiara de color dependiendo si esta activado o no
@@ -468,13 +560,56 @@ namespace Alumnos_FE
             tipBorrar.Active = true;
         }
 
-        private void tipDNI_Popup(object sender, PopupEventArgs e)
+        private void btnFiltrar_Click(object sender, EventArgs e)
         {
+            //BindingSource bs = new BindingSource();
+            //bs.DataSource = dataGrid1.DataSource;
+            //bs.Filter = "Fecha like '%" + FechaSelector.Text + "%'";
+            //dataGrid1.DataSource = bs.DataSource;
+        }
+
+        private void btnMostrar_Click(object sender, EventArgs e)
+        {
+            Alumnos alumnos = new Alumnos();
+            mostrarclick = 1;
+            if (mostrarclick == 1)
+            {
+                BindingSource bs = new BindingSource();
+                bs.DataSource = alumnos.ListaDT;
+                bs.Filter = null;
+                dataGrid1.DataSource = bs.DataSource;
+            }
+        }
+        private void FechaSelector_CloseUp(object sender, EventArgs e)
+        {
+            BindingSource bs = new BindingSource();
+            bs.DataSource = dataGrid1.DataSource;
+            bs.Filter = "Fecha like '%" + FechaSelector.Text + "%'";
+            dataGrid1.DataSource = bs.DataSource;
+            mostrarclick = 0;
 
         }
 
+        private void txtNombre_KeyDown(object sender, KeyEventArgs e)
+        {
+            txtNombre.Text = "";
+        }
+
+        private void txtApellido_KeyDown(object sender, KeyEventArgs e)
+        {
+            txtApellido.Text = "";
+        }
+
+        private void txtDni_KeyDown(object sender, KeyEventArgs e)
+        {
+            txtDni.Text = "";
+        }
+    }
+
+
+
         //
         //
 
-    }
+    
 }
