@@ -32,8 +32,8 @@ namespace Alumnos_FE
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.labelTitulo = new System.Windows.Forms.Label();
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.txtApellido = new System.Windows.Forms.TextBox();
@@ -59,6 +59,7 @@ namespace Alumnos_FE
             this.TipAsistencia = new System.Windows.Forms.ToolTip(this.components);
             this.tipModo = new System.Windows.Forms.ToolTip(this.components);
             this.btnMostrar = new System.Windows.Forms.Button();
+            this.boxLanguage = new System.Windows.Forms.ComboBox();
             this.PanelBarraTitulo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorNombre)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorApellido)).BeginInit();
@@ -208,25 +209,25 @@ namespace Alumnos_FE
             this.dataGrid1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
             this.dataGrid1.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
             this.dataGrid1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle27.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle27.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle27.Font = new System.Drawing.Font("Century Gothic", 10F);
-            dataGridViewCellStyle27.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle27.NullValue = "null";
-            dataGridViewCellStyle27.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle27.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle27.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGrid1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle27;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Century Gothic", 10F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.NullValue = "null";
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGrid1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGrid1.ColumnHeadersHeight = 30;
             this.dataGrid1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridViewCellStyle28.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle28.BackColor = System.Drawing.Color.AliceBlue;
-            dataGridViewCellStyle28.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle28.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle28.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle28.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle28.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGrid1.DefaultCellStyle = dataGridViewCellStyle28;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.AliceBlue;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGrid1.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGrid1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dataGrid1.EnableHeadersVisualStyles = false;
             this.dataGrid1.GridColor = System.Drawing.Color.DarkGray;
@@ -341,7 +342,7 @@ namespace Alumnos_FE
             this.btnMostrar.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DarkGray;
             this.btnMostrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMostrar.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnMostrar.Location = new System.Drawing.Point(687, 461);
+            this.btnMostrar.Location = new System.Drawing.Point(737, 448);
             this.btnMostrar.Name = "btnMostrar";
             this.btnMostrar.Size = new System.Drawing.Size(112, 46);
             this.btnMostrar.TabIndex = 45;
@@ -349,12 +350,28 @@ namespace Alumnos_FE
             this.btnMostrar.UseVisualStyleBackColor = false;
             this.btnMostrar.Click += new System.EventHandler(this.btnMostrar_Click);
             // 
+            // boxLanguage
+            // 
+            this.boxLanguage.BackColor = System.Drawing.SystemColors.Window;
+            this.boxLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.boxLanguage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.boxLanguage.FormattingEnabled = true;
+            this.boxLanguage.Items.AddRange(new object[] {
+            "Español",
+            "Ingles "});
+            this.boxLanguage.Location = new System.Drawing.Point(754, 56);
+            this.boxLanguage.Name = "boxLanguage";
+            this.boxLanguage.Size = new System.Drawing.Size(121, 21);
+            this.boxLanguage.TabIndex = 46;
+            this.boxLanguage.SelectionChangeCommitted += new System.EventHandler(this.boxLanguage_SelectionChangeCommitted);
+            // 
             // Carga_Alumnos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.AliceBlue;
             this.ClientSize = new System.Drawing.Size(1052, 536);
+            this.Controls.Add(this.boxLanguage);
             this.Controls.Add(this.btnMostrar);
             this.Controls.Add(this.btnEditar);
             this.Controls.Add(this.FechaSelector);
@@ -386,6 +403,7 @@ namespace Alumnos_FE
             this.Controls.SetChildIndex(this.FechaSelector, 0);
             this.Controls.SetChildIndex(this.btnEditar, 0);
             this.Controls.SetChildIndex(this.btnMostrar, 0);
+            this.Controls.SetChildIndex(this.boxLanguage, 0);
             this.PanelBarraTitulo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.errorNombre)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorApellido)).EndInit();
@@ -425,6 +443,7 @@ namespace Alumnos_FE
         private System.Windows.Forms.ToolTip tipModo;
         private System.Windows.Forms.Button btnEditar;
         private System.Windows.Forms.Button btnMostrar;
+        private System.Windows.Forms.ComboBox boxLanguage;
     }
 }
 

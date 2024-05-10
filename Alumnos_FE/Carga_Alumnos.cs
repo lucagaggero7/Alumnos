@@ -15,19 +15,17 @@ using System.Windows.Forms;
 using Alumnos_BE;
 using Alumnos_FE;
 using Alumnos_FE.Controles_Personalizados;
-
-
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 
 namespace Alumnos_FE
 {
     //En la siguiente linea hacemos que el formulario actual herede
     //todas las propiedades de diseño y de funcion del formulario plantilla (FrmBase)
-    //creado anteriormente
+
     public partial class Carga_Alumnos : FrmBase
-    //
     {
-        //variables que cuentan los clicks del modo oscuro y checkbox
+        //variables que cuentan los clicks del modo oscuro y checkbox de asistencia
         public int contadormodo = 0;
         public int contadorcheckbox = 0;
         //
@@ -42,10 +40,11 @@ namespace Alumnos_FE
 
         //Variable que verifica si existe el DNI y la Fecha coincide con la llamada al metodo del backend
         bool existealumno;
-
+        
+        //Instanciamos la clase alumnos del backend
         public Alumnos alumnos { get; set; } = new Alumnos();
 
-        //variables que cuentan los clicks de los textbox 
+        //variables que cuentan los clicks de los textbox para simular placeholders
         int nombreclick = 0;
         int apellidoclick = 0;
         int dniclick = 0;
@@ -55,16 +54,20 @@ namespace Alumnos_FE
         public Carga_Alumnos()
         {
             InitializeComponent();
+            
         }
 
         //FUNCION MODO OSCURO
         
         private void Carga_Alumnos_Load(object sender, EventArgs e)
         {
-           
+            //restringimos las interacciones con el combobox
+            boxLanguage.DropDownStyle = ComboBoxStyle.DropDownList;
+            //damos el valor por defecto al lenguaje español
+            boxLanguage.SelectedIndex = 0;
 
 
-            //actualizar datagridview desde que inicia la aplicacion para ver los datos desde el principio
+            //actualizar datagridview desde que inicia el formulario para ver los datos desde el principio
             dataGrid1.DataSource = alumnos.ListaDT;
             //
 
@@ -73,11 +76,13 @@ namespace Alumnos_FE
             dataGrid1.ClearSelection();
             //
 
-            //Le damos una fecha minima de una semana anterior a la fecha actual
-            //por lo que solo se podran cargar y borrar registros de la semana anterior en adelante
+            //Le damos una fecha minima de dos meses anterior a la fecha actual
+            //por lo que solo se podran cargar y borrar registros desde esa fecha en adelante
             FechaSelector.MinDate = DateTime.Today.AddDays(-60);
             //
 
+            //Inicia el formulario con un filtrado de la tabla de datos
+            //por la fecha del date-time-picker (fecha actual por defecto)
             BindingSource bs = new BindingSource();
             bs.DataSource = dataGrid1.DataSource;
             bs.Filter = "Fecha like '%" + FechaSelector.Text + "%'";
@@ -89,7 +94,7 @@ namespace Alumnos_FE
         {
             this.ActiveControl = PanelBarraTitulo;
             contadormodo++;
-            //codigo arcaico en desuso 
+            //codigo arcaico usado en formularios padre con login
             //Login f1 = Owner as Login;
             //f1.contadormodo = contadormodo;
             if ((contadormodo % 2) == 0)
@@ -102,12 +107,14 @@ namespace Alumnos_FE
                 dataGrid1.GridColor = Color.DarkGray;
                 dataGrid1.ColumnHeadersDefaultCellStyle.BackColor = SystemColors.Control;
                 dataGrid1.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
-                //
                 PanelBarraTitulo.BackColor = Color.Blue;
                 FechaSelector.SkinColor = Color.Blue;
                 btnCargar.BackColor = Color.AliceBlue;
                 btnBorrar.BackColor = Color.AliceBlue;
                 btnModo.BackColor = Color.AliceBlue;
+                btnEditar.BackColor = Color.AliceBlue;
+                btnMostrar.BackColor = Color.AliceBlue;
+                boxLanguage.BackColor = Color.AliceBlue;
                 btnCargar.FlatAppearance.BorderColor = Color.DarkGray;
                 btnModo.FlatAppearance.BorderColor = Color.DarkGray;
                 btnCerrar.FlatAppearance.MouseDownBackColor = Color.Indigo;
@@ -116,7 +123,6 @@ namespace Alumnos_FE
                 btnMinimizar.FlatAppearance.MouseOverBackColor = Color.Indigo;
                 txtNombre.BackColor = Color.AliceBlue;
                 txtApellido.BackColor = Color.AliceBlue;
-                
                 txtDni.BackColor = Color.AliceBlue;
                 btnModo.ForeColor = Color.Black;
                 checkBox1.ForeColor = Color.Black;
@@ -155,19 +161,20 @@ namespace Alumnos_FE
                 dataGrid1.GridColor = Color.SteelBlue;
                 dataGrid1.ColumnHeadersDefaultCellStyle.BackColor = SystemColors.HotTrack;
                 dataGrid1.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-
                 PanelBarraTitulo.BackColor = Color.FromArgb(32, 47, 65);
                 FechaSelector.SkinColor = Color.FromArgb(32, 47, 65);
                 btnCargar.BackColor = Color.Lavender;
                 btnBorrar.BackColor = Color.Lavender;
                 btnModo.BackColor = Color.Lavender;
+                btnEditar.BackColor = Color.Lavender;
+                btnMostrar.BackColor = Color.Lavender;
+                boxLanguage.BackColor = Color.Lavender;
                 btnCerrar.FlatAppearance.MouseDownBackColor = Color.DarkGray;
                 btnCerrar.FlatAppearance.MouseOverBackColor = Color.DarkGray;
                 btnMinimizar.FlatAppearance.MouseDownBackColor = Color.DarkGray;
                 btnMinimizar.FlatAppearance.MouseOverBackColor = Color.DarkGray;
                 txtNombre.BackColor = Color.Lavender;
                 txtApellido.BackColor = Color.Lavender;
-               
                 txtDni.BackColor = Color.Lavender;
                 btnModo.ForeColor = Color.Black;
                 checkBox1.ForeColor = Color.White;
@@ -199,7 +206,7 @@ namespace Alumnos_FE
         }
 
 
-        // Verifica todos los textbox y si cumple los requisitos
+        // Verifica todos los textbox y si cumple los requisitos establecidos
         // se insertan las variables en el backend 
         private void btnCrear_Click(object sender, EventArgs e)
         {
@@ -254,23 +261,24 @@ namespace Alumnos_FE
                 return;
             }
 
-            //Creamos una nueva instancia de alumno
+            //Creamos una nueva instancia de la clase alumno
             //
             Alumno alumno = new Alumno();
 
-            //Creamos una nueva instancia de alumnos
+            //Creamos una nueva instancia de la clase alumnos
             //
             Alumnos alumnos = new Alumnos();
 
-            //Agregamos todos los datos al alumno q creamos
+            //Agregamos todos los datos a la clase alumno (alumno individual)
             //
             alumno.Agregar(txtNombre.Text,
                              txtApellido.Text,
                             txtDni.Text,
                             FechaSelector.Text,
                             checkBox1.Checked);
+            //
 
-            //llamamos al metodo que verifica si ya existe el DNI que coincida con la fecha en la lista de alumnos
+            //llamamos al metodo que verifica si ya existe el DNI y que coincida con la fecha en la lista de alumnos
             existe = alumnos.ExisteFechayDNI(alumnos, alumno);
 
             if (existe == false)
@@ -280,21 +288,27 @@ namespace Alumnos_FE
             }
             else
             {
+                //en el caso de que ya exista un registro (fila/row) en esa misma fecha
+                //el backend nos devolvio la variable true por lo que no permitimos volver a cargarlo
                 MessageBox.Show("No se permite cargar el mismo DNI en el mismo dia");
                 return;
             }
 
-            //Insertamos el alumno con todos sus datos en la lista de alumnos
+            //Insertamos el alumno con todos sus datos en la clase alumnos que contiene la lista
+            // de todos los alumnos cargados en el .XML
             //
             alumnos.InsertAlumno(alumno);
 
-            //Aviso que el alumno fue cargado correctamente
+            //Aviso que el alumno fue cargado correctamente en la lista
             MessageBox.Show("Alumno Cargado");
-            
-            
+            //
+
             //este codigo se utiliza para actualizar el datagrid view
-            // del login cuando se registra un nuevo usuario sin tener que reiniciar el programa
+            //cuando se agrega un registro (fila/row) sin tener que reiniciar el programa
             dataGrid1.DataSource = alumnos.ListaDT;
+            //
+
+            //Aqui se vuelve a filtrar la tabla de datos por la fecha seleccionada
             if (mostrarclick == 0)
             {
                 BindingSource bs = new BindingSource();
@@ -303,8 +317,11 @@ namespace Alumnos_FE
                 dataGrid1.DataSource = bs.DataSource;
                 mostrarclick = 0;
             }
+            //
         }
 
+        //Este evento click pertenece al boton borrar que borra un registro (fila/row)
+        //seleccionado mediante la fecha y dni del registro
         private void Borrar_Click(object sender, EventArgs e)
         {
             if (long.TryParse(txtDni.Text, out Verificacion))
@@ -319,24 +336,33 @@ namespace Alumnos_FE
                 errorDni.SetError(txtDni, "Ingrese un numero entero");
                 return;
             }
-
-            //Creamos una nueva instancia de alumno
             //
+
+            //Creamos una nueva instancia de la clase alumno
             Alumno alumno = new Alumno();
-
-            //Creamos una nueva instancia de alumnos
             //
+
+            //Creamos una nueva instancia de la clase alumnos
             Alumnos alumnos = new Alumnos();
+            //
 
-
+            //Agregamos todos los datos a la clase alumno (alumno individual)
+            //en este caso se va a utilizar para comparar los datos con 
+            //la data table y buscar coincidencias en los registros
             alumno.Agregar(txtNombre.Text,
                              txtApellido.Text,
                             txtDni.Text,
                             FechaSelector.Text,
                             checkBox1.Checked);
+            //
 
+            //Llamamos al metodo del backend que creamos para que borre
+            // el registro en la tabla y nos devuelva si existia el alumno o no
             existealumno = alumnos.BorrarAlumno(alumno);
+            //
 
+            //Notificamos si el valor exisita o no en el registro
+            //y si fue borrado con exito
             if (existealumno == false)
             {
                 MessageBox.Show("El valor no existe");
@@ -349,15 +375,14 @@ namespace Alumnos_FE
 
 
             }
-
-            //Aviso que el valor fue borrado de la lista correctamente
-
-            
+            //
 
             //este codigo se utiliza para actualizar el datagrid view
-            // del login cuando se registra un nuevo usuario sin tener que reiniciar el programa
-
+            //cuando se elimina un registro (fila/row) sin tener que reiniciar el programa
             dataGrid1.DataSource = alumnos.ListaDT;
+            //
+
+            //Aqui se vuelve a filtrar la tabla de datos por la fecha seleccionada
             if (mostrarclick == 0)
             {
                 BindingSource bs = new BindingSource();
@@ -366,10 +391,15 @@ namespace Alumnos_FE
                 dataGrid1.DataSource = bs.DataSource;
                 mostrarclick = 0;
             }
+            //
         }
 
+        //Este evento click pertenece al boton editar que edita la asistencia
+        //de un registro (fila/row) que el usuario seleccione
+        //mediante la fecha y dni del registro
         private void btnEditar_Click(object sender, EventArgs e)
         {
+            //Verificamos que el dni sea un valor entero
             if (long.TryParse(txtDni.Text, out Verificacion))
 
             {
@@ -382,24 +412,33 @@ namespace Alumnos_FE
                 errorDni.SetError(txtDni, "Ingrese un numero entero");
                 return;
             }
-
-            //Creamos una nueva instancia de alumno
             //
+
+            //Creamos una nueva instancia de la clase alumno
             Alumno alumno = new Alumno();
-
-            //Creamos una nueva instancia de alumnos
             //
+
+            //Creamos una nueva instancia de la clase alumnos
             Alumnos alumnos = new Alumnos();
+            //
 
-
+            //Agregamos todos los datos a la clase alumno (alumno individual)
+            //en este caso se va a utilizar para comparar los datos con 
+            //la data table y buscar coincidencias en los registros
             alumno.Agregar(txtNombre.Text,
                              txtApellido.Text,
                             txtDni.Text,
                             FechaSelector.Text,
                             checkBox1.Checked);
+            //
 
+            //Llamamos al metodo del backend que creamos para que edite
+            // el registro en la tabla y nos devuelva si existia el alumno o no
             existealumno = alumnos.EditarAlumno(alumno);
+            //
 
+            //Notificamos si el valor exisita o no en el registro
+            //y si fue editado con exito
             if (existealumno == false)
             {
                 MessageBox.Show("El valor no existe");
@@ -412,15 +451,14 @@ namespace Alumnos_FE
 
 
             }
-
-            //Aviso que el valor fue borrado de la lista correctamente
-
-
+            //
 
             //este codigo se utiliza para actualizar el datagrid view
-            // del login cuando se registra un nuevo usuario sin tener que reiniciar el programa
-
+            //cuando se edita un registro (fila/row) sin tener que reiniciar el programa
             dataGrid1.DataSource = alumnos.ListaDT;
+            //
+
+            //Aqui se vuelve a filtrar la tabla de datos por la fecha seleccionada
             if (mostrarclick == 0)
             {
                 BindingSource bs = new BindingSource();
@@ -429,6 +467,7 @@ namespace Alumnos_FE
                 dataGrid1.DataSource = bs.DataSource;
                 mostrarclick = 0;
             }
+            //
 
         }
 
@@ -437,13 +476,13 @@ namespace Alumnos_FE
             //Limpiamos la seleccion del datagridview
             //cuando se presiona click fuera del datagridview
             dataGrid1.ClearSelection();
+            //
         }
 
-        //el checkbox cambiara de color dependiendo si esta activado o no
-        //mediante un if y else
-        //
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
+            //el checkbox cambiara de color dependiendo si esta activado o no
+            //mediante un if/else
             CheckBox chk = sender as CheckBox;
             if (chk.Checked)
             {
@@ -455,6 +494,8 @@ namespace Alumnos_FE
                 chk.Image = Properties.Resources.Vunchecked;
                 checkBox1.Text = " Ausente";
             }
+            //
+
             //if (checkbox1.checked == true)
             //{
             //    checkbox1.forecolor = color.green;
@@ -469,7 +510,7 @@ namespace Alumnos_FE
 
 
         //Los siguientes metodos cambian los colores de las fuentes en los textbox
-        // para simular un placeholder, el cual lamentablemente no existe en Winforms .NETframework
+        // para simular un placeholder, el cual no está implementado en Winforms
         private void txtNombre_Click(object sender, EventArgs e)
         {
             nombreclick++;
@@ -539,7 +580,92 @@ namespace Alumnos_FE
             txtDni.ForeColor = Color.Black;
         }
 
+        private void txtNombre_KeyDown(object sender, KeyEventArgs e)
+        {
+            nombreclick++;
 
+            if (nombreclick == 1)
+            {
+                txtNombre.Text = "";
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        private void txtApellido_KeyDown(object sender, KeyEventArgs e)
+        {
+            apellidoclick++;
+
+            if (apellidoclick == 1)
+            {
+                txtApellido.Text = "";
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        private void txtDni_KeyDown(object sender, KeyEventArgs e)
+        {
+            dniclick++;
+
+            if (dniclick == 1)
+            {
+                txtDni.Text = "";
+            }
+            else
+            {
+                return;
+            }
+        }
+        ////
+
+        //Anteriormente se utilizaba un boton para filtrar los registros
+        //actualmente se filtra automaticamente
+        private void btnFiltrar_Click(object sender, EventArgs e)
+        {
+            //BindingSource bs = new BindingSource();
+            //bs.DataSource = dataGrid1.DataSource;
+            //bs.Filter = "Fecha like '%" + FechaSelector.Text + "%'";
+            //dataGrid1.DataSource = bs.DataSource;
+        }
+        //
+
+        //Este evento se creo para mostrar todos los registros
+        //y no filtrar la tabla de datos
+        private void btnMostrar_Click(object sender, EventArgs e)
+        {
+            Alumnos alumnos = new Alumnos();
+            mostrarclick = 1;
+            if (mostrarclick == 1)
+            {
+                BindingSource bs = new BindingSource();
+                bs.DataSource = alumnos.ListaDT;
+                bs.Filter = null;
+                dataGrid1.DataSource = bs.DataSource;
+            }
+        }
+        //
+
+        //Este evento se ejecuta cuando el usuario termina de seleccionar
+        //una fecha en el date-time-picker y filtra todos los registros
+        //usando esa fecha
+        private void FechaSelector_CloseUp(object sender, EventArgs e)
+        {
+            BindingSource bs = new BindingSource();
+            bs.DataSource = dataGrid1.DataSource;
+            bs.Filter = "Fecha like '%" + FechaSelector.Text + "%'";
+            dataGrid1.DataSource = bs.DataSource;
+            mostrarclick = 0;
+
+        }
+        //
+
+        //Eventos que controlan la aparicion de los tooltip
+        //sin estos eventos los controles se bugean y se superponen al ejecutarse
         private void btnCargar_MouseLeave(object sender, EventArgs e)
         {
             tipCargar.Active = false;
@@ -559,57 +685,19 @@ namespace Alumnos_FE
         {
             tipBorrar.Active = true;
         }
+        //
 
-        private void btnFiltrar_Click(object sender, EventArgs e)
+        //Este evento se ejecuta al seleccionar una opcion en el combobox
+        private void boxLanguage_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            //BindingSource bs = new BindingSource();
-            //bs.DataSource = dataGrid1.DataSource;
-            //bs.Filter = "Fecha like '%" + FechaSelector.Text + "%'";
-            //dataGrid1.DataSource = bs.DataSource;
+            //quita el molesto highlight del combobox
+            this.ActiveControl = null;
+            //
         }
-
-        private void btnMostrar_Click(object sender, EventArgs e)
-        {
-            Alumnos alumnos = new Alumnos();
-            mostrarclick = 1;
-            if (mostrarclick == 1)
-            {
-                BindingSource bs = new BindingSource();
-                bs.DataSource = alumnos.ListaDT;
-                bs.Filter = null;
-                dataGrid1.DataSource = bs.DataSource;
-            }
-        }
-        private void FechaSelector_CloseUp(object sender, EventArgs e)
-        {
-            BindingSource bs = new BindingSource();
-            bs.DataSource = dataGrid1.DataSource;
-            bs.Filter = "Fecha like '%" + FechaSelector.Text + "%'";
-            dataGrid1.DataSource = bs.DataSource;
-            mostrarclick = 0;
-
-        }
-
-        private void txtNombre_KeyDown(object sender, KeyEventArgs e)
-        {
-            txtNombre.Text = "";
-        }
-
-        private void txtApellido_KeyDown(object sender, KeyEventArgs e)
-        {
-            txtApellido.Text = "";
-        }
-
-        private void txtDni_KeyDown(object sender, KeyEventArgs e)
-        {
-            txtDni.Text = "";
-        }
+        //
     }
+    //
+    //
 
 
-
-        //
-        //
-
-    
 }
