@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Security;
@@ -133,14 +134,14 @@ namespace Alumnos_FE
                 }
                 else
                 {
-                    txtNombre.ForeColor = Color.DarkGray;
+                    txtNombre.ForeColor = Color.LightGray;
                 }
                 if (txtApellido.ForeColor == Color.Black)
                 {
                 }
                 else
                 {
-                    txtApellido.ForeColor = Color.DarkGray;
+                    txtApellido.ForeColor = Color.LightGray;
                 }
                
                 if (txtDni.ForeColor == Color.Black)
@@ -148,7 +149,7 @@ namespace Alumnos_FE
                 }
                 else
                 {
-                    txtDni.ForeColor = Color.DarkGray;
+                    txtDni.ForeColor = Color.LightGray;
                 }
             }
             else
@@ -185,14 +186,14 @@ namespace Alumnos_FE
                 }
                 else
                 {
-                    txtNombre.ForeColor = Color.DarkGray;
+                    txtNombre.ForeColor = Color.LightGray;
                 }
                 if (txtApellido.ForeColor == Color.Black)
                 {
                 }
                 else
                 {
-                    txtApellido.ForeColor = Color.DarkGray;
+                    txtApellido.ForeColor = Color.LightGray;
                 }
                
                 if (txtDni.ForeColor == Color.Black)
@@ -200,7 +201,7 @@ namespace Alumnos_FE
                 }
                 else
                 {
-                    txtDni.ForeColor = Color.DarkGray;
+                    txtDni.ForeColor = Color.LightGray;
                 }
             }
         }
@@ -236,14 +237,14 @@ namespace Alumnos_FE
 
             }
 
-            if (txtDni.Text != "" && txtDni.Text != "Dni")
+            if (txtDni.Text != "" && txtDni.Text != "Dni" && txtDni.Text.Length >= 8)
             {
                 //borro el error 
                 errorDni.SetError(txtDni, "");
             }
             else
             {
-                errorDni.SetError(txtDni, "Debe ingresar un Dni");
+                errorDni.SetError(txtDni, "Debe ingresar un Dni valido de 8 digitos");
                 txtDni.Focus();
                 return;
             }
@@ -477,6 +478,37 @@ namespace Alumnos_FE
             //cuando se presiona click fuera del datagridview
             dataGrid1.ClearSelection();
             //
+
+            //Ejecutamos los evenetos leave para ahorrar lineas if
+            txtNombre_Leave(sender, e);
+            txtApellido_Leave(sender, e);
+            txtDni_Leave(sender, e);
+            //
+
+            //Sacamos el foco de los textbox para no generar bugs del cursor
+            checkBox1.Focus();
+            //
+
+            //if (txtNombre.Text == "")
+            //{
+            //    txtNombre.Text = "Nombre";
+            //    txtNombre.ForeColor = Color.LightGray;
+
+            //}
+
+            //if (txtApellido.Text == "")
+            //{
+            //    txtApellido.Text = "Apellido";
+            //    txtApellido.ForeColor = Color.LightGray;
+            //}
+
+            //if (txtDni.Text == "")
+            //{
+            //    txtDni.Text = "Dni";
+            //    txtDni.ForeColor = Color.LightGray;
+            //}
+
+
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -515,7 +547,7 @@ namespace Alumnos_FE
         {
             nombreclick++;
 
-            if (nombreclick == 1)
+            if (nombreclick >= 1 && txtNombre.Text == "Nombre")
             {
                 txtNombre.Text = "";
             }
@@ -540,7 +572,7 @@ namespace Alumnos_FE
         {
 
             apellidoclick++;
-            if (apellidoclick == 1)
+            if (apellidoclick >= 1 && txtApellido.Text == "Apellido")
             {
                 txtApellido.Text = "";
             }
@@ -564,7 +596,7 @@ namespace Alumnos_FE
         private void txtDni_Click(object sender, EventArgs e)
         {
             dniclick++;
-            if (dniclick == 1)
+            if (dniclick >= 1 && txtDni.Text == "Dni")
             {
                 txtDni.Text = "";
             }
@@ -592,6 +624,8 @@ namespace Alumnos_FE
             {
                 return;
             }
+
+            
         }
 
         private void txtApellido_KeyDown(object sender, KeyEventArgs e)
@@ -668,12 +702,12 @@ namespace Alumnos_FE
         //sin estos eventos los controles se bugean y se superponen al ejecutarse
         private void btnCargar_MouseLeave(object sender, EventArgs e)
         {
-            tipCargar.Active = false;
+           tipCargar.Active = false;
         }
 
         private void btnBorrar_MouseLeave(object sender, EventArgs e)
         {
-            tipBorrar.Active = false;
+           tipBorrar.Active = false;
         }
 
         private void btnCargar_MouseHover(object sender, EventArgs e)
@@ -683,7 +717,7 @@ namespace Alumnos_FE
 
         private void btnBorrar_MouseHover(object sender, EventArgs e)
         {
-            tipBorrar.Active = true;
+           tipBorrar.Active = true;
         }
         //
 
@@ -693,6 +727,35 @@ namespace Alumnos_FE
             //quita el molesto highlight del combobox
             this.ActiveControl = null;
             //
+        }
+
+        //Eventos leave que reinician los placeholder
+        private void txtNombre_Leave(object sender, EventArgs e)
+        {
+            if (txtNombre.Text == "")
+            {
+                txtNombre.Text = "Nombre";
+                txtNombre.ForeColor = Color.LightGray;
+            }
+            
+        }
+
+        private void txtApellido_Leave(object sender, EventArgs e)
+        {
+            if (txtApellido.Text == "")
+            {
+                txtApellido.Text = "Apellido";
+                txtApellido.ForeColor = Color.LightGray;
+            }
+        }
+
+        private void txtDni_Leave(object sender, EventArgs e)
+        {
+            if (txtDni.Text == "")
+            {
+                txtDni.Text = "Dni";
+                txtDni.ForeColor = Color.LightGray;
+            }
         }
         //
     }

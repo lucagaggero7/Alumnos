@@ -102,7 +102,7 @@ namespace Alumnos_FE
             // 
             this.txtNombre.BackColor = System.Drawing.Color.AliceBlue;
             this.txtNombre.Font = new System.Drawing.Font("Verdana", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNombre.ForeColor = System.Drawing.Color.DarkGray;
+            this.txtNombre.ForeColor = System.Drawing.Color.LightGray;
             this.txtNombre.Location = new System.Drawing.Point(114, 185);
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(218, 24);
@@ -113,12 +113,13 @@ namespace Alumnos_FE
             this.txtNombre.TextChanged += new System.EventHandler(this.txtNombre_TextChanged);
             this.txtNombre.DoubleClick += new System.EventHandler(this.txtNombre_DoubleClick);
             this.txtNombre.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtNombre_KeyDown);
+            this.txtNombre.Leave += new System.EventHandler(this.txtNombre_Leave);
             // 
             // txtApellido
             // 
             this.txtApellido.BackColor = System.Drawing.Color.AliceBlue;
             this.txtApellido.Font = new System.Drawing.Font("Verdana", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtApellido.ForeColor = System.Drawing.Color.DarkGray;
+            this.txtApellido.ForeColor = System.Drawing.Color.LightGray;
             this.txtApellido.Location = new System.Drawing.Point(114, 231);
             this.txtApellido.Name = "txtApellido";
             this.txtApellido.Size = new System.Drawing.Size(218, 24);
@@ -129,12 +130,13 @@ namespace Alumnos_FE
             this.txtApellido.TextChanged += new System.EventHandler(this.txtApellido_TextChanged);
             this.txtApellido.DoubleClick += new System.EventHandler(this.txtApellido_DoubleClick);
             this.txtApellido.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtApellido_KeyDown);
+            this.txtApellido.Leave += new System.EventHandler(this.txtApellido_Leave);
             // 
             // txtDni
             // 
             this.txtDni.BackColor = System.Drawing.Color.AliceBlue;
             this.txtDni.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDni.ForeColor = System.Drawing.Color.DarkGray;
+            this.txtDni.ForeColor = System.Drawing.Color.LightGray;
             this.txtDni.Location = new System.Drawing.Point(114, 277);
             this.txtDni.MaxLength = 8;
             this.txtDni.Name = "txtDni";
@@ -145,6 +147,7 @@ namespace Alumnos_FE
             this.txtDni.Click += new System.EventHandler(this.txtDni_Click);
             this.txtDni.TextChanged += new System.EventHandler(this.txtDni_TextChanged);
             this.txtDni.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDni_KeyDown);
+            this.txtDni.Leave += new System.EventHandler(this.txtDni_Leave);
             // 
             // btnCargar
             // 
