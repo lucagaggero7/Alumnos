@@ -1,19 +1,16 @@
-﻿using System;
-using System.Drawing;
-
-namespace Alumnos_FE
+﻿namespace Alumnos_FE
 {
-    partial class Carga_Alumnos
+    partial class Carga_Alumnos_EN
     {
         /// <summary>
-        /// Variable del diseñador necesaria.
+        /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        /// Limpiar los recursos que se estén usando.
+        /// Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">true si los recursos administrados se deben desechar; false en caso contrario.</param>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -23,17 +20,17 @@ namespace Alumnos_FE
             base.Dispose(disposing);
         }
 
-        #region Código generado por el Diseñador de Windows Forms
+        #region Windows Form Designer generated code
 
         /// <summary>
-        /// Método necesario para admitir el Diseñador. No se puede modificar
-        /// el contenido de este método con el editor de código.
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.labelTitulo = new System.Windows.Forms.Label();
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.txtApellido = new System.Windows.Forms.TextBox();
@@ -85,7 +82,6 @@ namespace Alumnos_FE
             // 
             // PanelBarraTitulo
             // 
-            this.PanelBarraTitulo.BackColor = System.Drawing.Color.Blue;
             this.PanelBarraTitulo.Size = new System.Drawing.Size(1052, 34);
             // 
             // labelTitulo
@@ -94,20 +90,21 @@ namespace Alumnos_FE
             this.labelTitulo.Font = new System.Drawing.Font("Verdana", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelTitulo.Location = new System.Drawing.Point(109, 134);
             this.labelTitulo.Name = "labelTitulo";
-            this.labelTitulo.Size = new System.Drawing.Size(260, 25);
+            this.labelTitulo.Size = new System.Drawing.Size(232, 25);
             this.labelTitulo.TabIndex = 0;
-            this.labelTitulo.Text = "CARGAR ASISTENCIA";
+            this.labelTitulo.Text = "ASSISTANCE LOAD";
             // 
             // txtNombre
             // 
             this.txtNombre.BackColor = System.Drawing.Color.AliceBlue;
             this.txtNombre.Font = new System.Drawing.Font("Verdana", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtNombre.ForeColor = System.Drawing.Color.LightGray;
+            this.errorNombre.SetIconAlignment(this.txtNombre, System.Windows.Forms.ErrorIconAlignment.MiddleLeft);
             this.txtNombre.Location = new System.Drawing.Point(114, 185);
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(218, 24);
             this.txtNombre.TabIndex = 2;
-            this.txtNombre.Text = "Nombre";
+            this.txtNombre.Text = "Name";
             this.tipNombre.SetToolTip(this.txtNombre, "Ingrese un nombre");
             this.txtNombre.Click += new System.EventHandler(this.txtNombre_Click);
             this.txtNombre.TextChanged += new System.EventHandler(this.txtNombre_TextChanged);
@@ -120,11 +117,12 @@ namespace Alumnos_FE
             this.txtApellido.BackColor = System.Drawing.Color.AliceBlue;
             this.txtApellido.Font = new System.Drawing.Font("Verdana", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtApellido.ForeColor = System.Drawing.Color.LightGray;
+            this.errorApellido.SetIconAlignment(this.txtApellido, System.Windows.Forms.ErrorIconAlignment.MiddleLeft);
             this.txtApellido.Location = new System.Drawing.Point(114, 231);
             this.txtApellido.Name = "txtApellido";
             this.txtApellido.Size = new System.Drawing.Size(218, 24);
             this.txtApellido.TabIndex = 3;
-            this.txtApellido.Text = "Apellido";
+            this.txtApellido.Text = "Surname";
             this.tipApellido.SetToolTip(this.txtApellido, "Ingrese un Apellido");
             this.txtApellido.Click += new System.EventHandler(this.txtApellido_Click);
             this.txtApellido.TextChanged += new System.EventHandler(this.txtApellido_TextChanged);
@@ -137,12 +135,13 @@ namespace Alumnos_FE
             this.txtDni.BackColor = System.Drawing.Color.AliceBlue;
             this.txtDni.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDni.ForeColor = System.Drawing.Color.LightGray;
+            this.errorDni.SetIconAlignment(this.txtDni, System.Windows.Forms.ErrorIconAlignment.MiddleLeft);
             this.txtDni.Location = new System.Drawing.Point(114, 277);
             this.txtDni.MaxLength = 8;
             this.txtDni.Name = "txtDni";
             this.txtDni.Size = new System.Drawing.Size(218, 26);
             this.txtDni.TabIndex = 5;
-            this.txtDni.Text = "Dni";
+            this.txtDni.Text = "Id Number";
             this.tipDNI.SetToolTip(this.txtDni, "Ingrese un DNI");
             this.txtDni.Click += new System.EventHandler(this.txtDni_Click);
             this.txtDni.TextChanged += new System.EventHandler(this.txtDni_TextChanged);
@@ -161,7 +160,7 @@ namespace Alumnos_FE
             this.btnCargar.Name = "btnCargar";
             this.btnCargar.Size = new System.Drawing.Size(100, 46);
             this.btnCargar.TabIndex = 9;
-            this.btnCargar.Text = "CARGAR\r\n ALUMNO";
+            this.btnCargar.Text = "LOAD";
             this.tipCargar.SetToolTip(this.btnCargar, "Cargar un registro requiere:\r\nNombre, Apellido, DNI y Fecha");
             this.btnCargar.UseVisualStyleBackColor = false;
             this.btnCargar.Click += new System.EventHandler(this.btnCrear_Click);
@@ -193,7 +192,7 @@ namespace Alumnos_FE
             this.btnModo.Name = "btnModo";
             this.btnModo.Size = new System.Drawing.Size(127, 38);
             this.btnModo.TabIndex = 37;
-            this.btnModo.Text = "Modo Claro\r\nActivado\r\n";
+            this.btnModo.Text = "Light Mode\r\nActivated\r\n";
             this.btnModo.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.tipModo.SetToolTip(this.btnModo, "Seleccione entre Modo Claro o Modo Oscuro");
             this.btnModo.UseVisualStyleBackColor = false;
@@ -212,25 +211,25 @@ namespace Alumnos_FE
             this.dataGrid1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
             this.dataGrid1.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
             this.dataGrid1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Century Gothic", 10F);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.NullValue = "null";
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGrid1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Century Gothic", 10F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.NullValue = "null";
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGrid1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGrid1.ColumnHeadersHeight = 30;
             this.dataGrid1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.AliceBlue;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGrid1.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.AliceBlue;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.DarkOrchid;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGrid1.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGrid1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dataGrid1.EnableHeadersVisualStyles = false;
             this.dataGrid1.GridColor = System.Drawing.Color.DarkGray;
@@ -260,7 +259,7 @@ namespace Alumnos_FE
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(123, 35);
             this.checkBox1.TabIndex = 39;
-            this.checkBox1.Text = " Ausente";
+            this.checkBox1.Text = "Absent";
             this.checkBox1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.TipAsistencia.SetToolTip(this.checkBox1, "Marque la asistencia");
             this.checkBox1.UseVisualStyleBackColor = false;
@@ -278,7 +277,7 @@ namespace Alumnos_FE
             this.btnBorrar.Name = "btnBorrar";
             this.btnBorrar.Size = new System.Drawing.Size(100, 46);
             this.btnBorrar.TabIndex = 41;
-            this.btnBorrar.Text = "BORRAR\r\n ALUMNO";
+            this.btnBorrar.Text = "DELETE";
             this.tipBorrar.SetToolTip(this.btnBorrar, "Borrar un registro requiere DNI y Fecha");
             this.btnBorrar.UseVisualStyleBackColor = false;
             this.btnBorrar.Click += new System.EventHandler(this.Borrar_Click);
@@ -293,18 +292,19 @@ namespace Alumnos_FE
             // 
             this.FechaSelector.BorderColor = System.Drawing.Color.PaleVioletRed;
             this.FechaSelector.BorderSize = 0;
-            this.FechaSelector.CustomFormat = "dd \'de\' MMMM \'de\' yyyy";
+            this.FechaSelector.CustomFormat = "MM/dd/yyyy";
             this.FechaSelector.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FechaSelector.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.FechaSelector.Location = new System.Drawing.Point(114, 325);
             this.FechaSelector.MinimumSize = new System.Drawing.Size(4, 35);
             this.FechaSelector.Name = "FechaSelector";
             this.FechaSelector.Size = new System.Drawing.Size(218, 35);
-            this.FechaSelector.SkinColor = System.Drawing.Color.Blue;
+            this.FechaSelector.SkinColor = System.Drawing.Color.DarkOrchid;
             this.FechaSelector.TabIndex = 43;
             this.FechaSelector.TextColor = System.Drawing.Color.White;
             this.tipFecha.SetToolTip(this.FechaSelector, "Presione el calendario \r\npara ingresar una Fecha");
             this.FechaSelector.CloseUp += new System.EventHandler(this.FechaSelector_CloseUp);
+            this.FechaSelector.ValueChanged += new System.EventHandler(this.FechaSelector_ValueChanged);
             // 
             // cargaAlumnosBindingSource
             // 
@@ -326,7 +326,7 @@ namespace Alumnos_FE
             this.btnEditar.Name = "btnEditar";
             this.btnEditar.Size = new System.Drawing.Size(112, 46);
             this.btnEditar.TabIndex = 44;
-            this.btnEditar.Text = "EDITAR \r\n ASISTENCIA";
+            this.btnEditar.Text = "EDIT ASSISTANCE";
             this.btnEditar.UseVisualStyleBackColor = false;
             this.btnEditar.Click += new System.EventHandler(this.btnEditar_Click);
             // 
@@ -349,7 +349,7 @@ namespace Alumnos_FE
             this.btnMostrar.Name = "btnMostrar";
             this.btnMostrar.Size = new System.Drawing.Size(112, 46);
             this.btnMostrar.TabIndex = 45;
-            this.btnMostrar.Text = "MOSTRAR\r\n TODO";
+            this.btnMostrar.Text = "SHOW ALL";
             this.btnMostrar.UseVisualStyleBackColor = false;
             this.btnMostrar.Click += new System.EventHandler(this.btnMostrar_Click);
             // 
@@ -360,15 +360,15 @@ namespace Alumnos_FE
             this.boxLanguage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.boxLanguage.FormattingEnabled = true;
             this.boxLanguage.Items.AddRange(new object[] {
-            "Español",
-            "Ingles "});
+            "Spanish",
+            "English "});
             this.boxLanguage.Location = new System.Drawing.Point(754, 56);
             this.boxLanguage.Name = "boxLanguage";
             this.boxLanguage.Size = new System.Drawing.Size(121, 21);
             this.boxLanguage.TabIndex = 46;
             this.boxLanguage.SelectionChangeCommitted += new System.EventHandler(this.boxLanguage_SelectionChangeCommitted);
             // 
-            // Carga_Alumnos
+            // Carga_Alumnos_EN
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -388,11 +388,11 @@ namespace Alumnos_FE
             this.Controls.Add(this.txtNombre);
             this.Controls.Add(this.txtApellido);
             this.MinimizeBox = false;
-            this.Name = "Carga_Alumnos";
+            this.Name = "Carga_Alumnos_EN";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Registro";
-            this.Load += new System.EventHandler(this.Carga_Alumnos_Load);
-            this.Click += new System.EventHandler(this.Carga_Alumnos_Click);
+            this.Load += new System.EventHandler(this.Carga_Alumnos_EN_Load);
+            this.Click += new System.EventHandler(this.Carga_Alumnos_EN_Click);
             this.Controls.SetChildIndex(this.PanelBarraTitulo, 0);
             this.Controls.SetChildIndex(this.txtApellido, 0);
             this.Controls.SetChildIndex(this.txtNombre, 0);
@@ -449,4 +449,3 @@ namespace Alumnos_FE
         public System.Windows.Forms.ComboBox boxLanguage;
     }
 }
-

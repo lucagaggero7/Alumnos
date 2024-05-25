@@ -25,7 +25,7 @@ namespace Alumnos_FE
         //
         public void btnCerrar_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Application.Exit();
         }
 
         //el boton de minimizar el formulario

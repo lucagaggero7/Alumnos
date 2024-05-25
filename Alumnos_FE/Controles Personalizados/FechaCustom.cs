@@ -76,7 +76,6 @@ namespace Alumnos_FE.Controles_Personalizados
             this.MinimumSize = new Size(0, 35);
             this.Font = new Font(this.Font.Name, 9.5F);
             this.Format = DateTimePickerFormat.Custom;
-            this.CustomFormat = "dd 'de' MMMM 'de' yyyy";
         }
 
         //Overridden methods

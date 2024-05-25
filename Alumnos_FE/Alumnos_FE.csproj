@@ -52,6 +52,12 @@
     <Compile Include="Carga_Alumnos.Designer.cs">
       <DependentUpon>Carga_Alumnos.cs</DependentUpon>
     </Compile>
+    <Compile Include="Carga_Alumnos_EN.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Carga_Alumnos_EN.Designer.cs">
+      <DependentUpon>Carga_Alumnos_EN.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controles Personalizados\FechaCustom.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -65,6 +71,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Carga_Alumnos.resx">
       <DependentUpon>Carga_Alumnos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Carga_Alumnos_EN.resx">
+      <DependentUpon>Carga_Alumnos_EN.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmBase.resx">
       <DependentUpon>FrmBase.cs</DependentUpon>
